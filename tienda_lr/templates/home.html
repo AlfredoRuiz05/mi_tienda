@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ligianmodas - Todo lo que necesitas</title>
+    <link rel="stylesheet" href="{% static 'estilos/style.css' %}">
+</head>
+<body>
+    <header>
+    <div class="header-container">
+        <a href="#" class="logo">LigianModas</a>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar productos...">
+            <button>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
+                        stroke="#7f8c8d" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M21 21L16.65 16.65" stroke="#7f8c8d" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="cart-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z"
+                    stroke="#2c3e50" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            <span class="cart-count">0</span>
+        </div>
+                <div class="account-buttons">
+                {% if user.is_authenticated %}
+                    <div class="user-circle">
+                        {{ user.username|slice:":2"|upper }}
+                    </div>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-power-button" title="Cerrar sesión">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v10" />
+                                <path d="M5.5 7.5a9 9 0 1 0 13 0" />
+                            </svg>
+                        </button>
+                    </form>
+                        {% if user.is_superuser %}
+                            <a href="{% url 'productos:panel_admin' %}" class="admin-link">
+                                <button class="admin-button" title="Panel de Administración">
+                                🛠️
+                                </button>
+                            </a>
+                        {% endif %}
+
+                {% else %}
+                    <a href="{% url 'usuarios:registrarse' %}">
+                        <button class="account-button">Crear Cuenta</button>
+                    </a>
+                    <a href="{% url 'usuarios:iniciar_sesion' %}">
+                        <button class="account-button">Iniciar Sesión</button>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul class="nav-menu">
+            <li>Inicio</li>
+            <li>Electrodomésticos</li>
+            <li>Celulares</li>
+            <li>Ropa</li>
+            <li>Computadoras</li>
+            <li>Ofertas</li>
+            <li>Contacto</li>
+        </ul>
+    </nav>
+    
+    <div class="hero">
+        <h1>Descubre las mejores ofertas</h1>
+        <p>Todo lo que necesitas al mejor precio</p>
+    </div>
+    
+    <div class="container">
+        <div class="filter-section">
+            <h3 class="filter-title">Filtrar por categoría:</h3>
+            <div class="filter-options">
+                <div class="filter-option active">Todos</div>
+                <div class="filter-option">Electrodomésticos</div>
+                <div class="filter-option">Celulares</div>
+                <div class="filter-option">Ropa</div>
+                <div class="filter-option">Computadoras</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Productos Destacados</h2>
+        
+        <div class="products">
+    {% for producto in productos %}
+        <div class="product-card">
+            <div class="product-image">
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                {% else %}
+                    <img src="https://placehold.co/600x400" alt="Sin imagen">
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h3 class="product-title">{{ producto.nombre }}</h3>
+                {% if producto.descuento %}
+                    <div class="product-price">
+                        <del class="product-old-price">${{ producto.precio|floatformat:2 }}</del>
+                        <strong class="product-new-price small-text">${{ producto.precio_final|floatformat:2 }}</strong>
+                        <span class="product-discount small-text">({{ producto.descuento }}% OFF)</span>
+                    </div>
+                {% else %}
+                    <div class="product-price">${{ producto.precio|floatformat:2 }}</div>
+                {% endif %}
+                <button class="add-to-cart">Agregar al carrito</button>
+            </div>
+
+        </div>
+    {% empty %}
+        <p>No hay productos cargados aún.</p>
+    {% endfor %}
+</div>
+
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>LigianModas</h3>
+                <p>Tu tienda favorita para todo tipo de productos al mejor precio.</p>
+                <div class="social-icons">
+                    <img src="https://placehold.co/30x30" alt="Icono de Facebook en color azul" />
+                    <img src="https://placehold.co/30x30" alt="Icono de Twitter en color celeste" />
+                    <img src="https://placehold.co/30x30" alt="Icono de Instagram con degradado de colores" />
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Categorías</h3>
+                <ul>
+                    <li>Electrodomésticos</li>
+                    <li>Celulares</li>
+                    <li>Ropa</li>
+                    <li>Computadoras</li>
+                    <li>Hogar</li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Ayuda</h3>
+                <ul>
+                    <li>Preguntas frecuentes</li>
+                    <li>Envíos y devoluciones</li>
+                    <li>Métodos de pago</li>
+                    <li>Guía de tallas</li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>contacto@electroshop.com</li>
+                    <li>+1 234 567 890</li>
+                    <li>Calle Principal 123</li>
+                    <li>Ciudad, País</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 LigianModas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Funcionalidad básica del carrito
+        let cartCount = 0;
+        const cartCountElement = document.querySelector('.cart-count');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                cartCount++;
+                cartCountElement.textContent = cartCount;
+                
+                // Animación de agregar al carrito
+                button.textContent = '¡Agregado!';
+                setTimeout(() => {
+                    button.textContent = 'Agregar al carrito';
+                }, 1000);
+            });
+        });
+        
+        // Filtros de categoría
+        const filterOptions = document.querySelectorAll('.filter-option');
+        
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                // Aquí iría la lógica para filtrar productos en una implementación real
+                // Por ahora es solo visual
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000, 0 0 20px #ffb6c1, 0 0 30px #ffb6c1;
+            animation: neon-glow 1.5s infinite alternate;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* separa los campos entre sí */
+            padding: 20px;
+        }       
+
+        @keyframes neon-glow {
+            0% {
+                box-shadow: 0 0 10px #ffb6c1, 0 0 20px #ffb6c1, 0 0 30px #ffb6c1;
+            }
+            100% {
+                box-shadow: 0 0 20px #ffb6c1, 0 0 30px #ffb6c1, 0 0 40px #ffb6c1;
+            }
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffb6c1;
+            color: black;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff8da1;
+        }

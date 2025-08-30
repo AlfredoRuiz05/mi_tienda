@@ -1,0 +1,13 @@
+        .file-input-label:hover {
+            background-color: #f0fdf4;
+            border-color: #10b981;
+        }
+        .preview-container {
+            transition: all 0.3s ease;
+        }
+        .discount-toggle:checked + .discount-slider {
+            background-color: #10b981;
+        }
+        .discount-toggle:checked + .discount-slider::before {
+            transform: translateX(1.5rem);
+        }

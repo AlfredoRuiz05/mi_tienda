@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'estilos/style_admin.css' %}">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>AdminPanel</h1>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="{% url 'pagina_principal' %}" class="nav-item">
+                <span class="nav-icon">◄</span>
+                Volver al inicio
+            </a>
+            <a href="{% url 'productos:agregar_producto' %}" class="nav-item">
+                <span class="nav-icon">+</span>
+                Agregar producto
+            </a>
+            <a href="{% url 'productos:panel_modificar_productos' %}" class="nav-item">
+                <span class="nav-icon">✎</span>
+                Modificar producto
+            </a>
+            <a href="{% url 'productos:panel_eliminar_productos' %}" class="nav-item">
+                <span class="nav-icon">🗑️</span>
+                Eliminar producto
+            </a>
+
+            <div class="logout-btn">
+                <a href="{% url 'logout' %}" class="nav-item">
+                    <span class="power-icon"></span>
+                    Cerrar sesión
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="header">
+            <button class="menu-toggle">☰</button>
+            <div class="user-profile">
+                <!-- User profile placeholder -->
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="breadcrumb">
+                <a href="{% url 'pagina_principal' %}">Inicio</a>
+                <span class="breadcrumb-separator">/</span>
+                <span>Panel</span>
+            </div>
+            
+            {% block content %}
+            <!-- Dynamic content will be inserted here by Django -->
+            <div class="dashboard-overview">
+                
+                <h2>Bienvenido al panel de administración</h2>
+                <p>Selecciona una opción del menú lateral para comenzar.</p>
+            </div>
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Simple mobile menu toggle functionality (no JS) -->
+    <a href="#sidebar-toggle" class="menu-toggle" id="menu-toggle" hidden></a>
+    <style>
+        #sidebar-toggle:target ~ .sidebar {
+            transform: translateX(0);
+        }
+        #sidebar-toggle:target ~ .main-content::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+    </style>
+</body>
+</html>

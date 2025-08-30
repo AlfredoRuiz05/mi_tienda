@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Producto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'estilos/style_agregar_prod.css' %}">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto py-8 px-4 max-w-2xl">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Header -->
+            <div class="bg-emerald-600 py-4 px-6">
+                <h1 class="text-white text-2xl font-bold">Agregar Nuevo Producto</h1>
+            </div>
+
+            <!-- Form -->
+            <form id="productForm" method="POST" enctype="multipart/form-data" class="p-6 space-y-6">
+                {% csrf_token %}
+
+                <!-- Nombre del Producto -->
+                <div>
+                    <label for="productName" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Producto</label>
+                    <input type="text" id="productName" name="productName" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                           placeholder="Ej: Zapatillas Running Pro" required>
+                </div>
+
+                <!-- Precio -->
+                <div>
+                    <label for="productPrice" class="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500">$</span>
+                        </div>
+                        <input type="number" id="productPrice" name="productPrice" min="0" step="0.01"
+                               class="block w-full pl-8 pr-12 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                               placeholder="0.00" required>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <span class="text-gray-500">USD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Foto del Producto -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Foto del Producto</label>
+                    <div class="mt-1 flex flex-col items-center">
+                        <!-- Preview Container -->
+                        <div id="imagePreview" class="mb-4 preview-container hidden">
+                            <img id="previewImage" class="h-48 w-full object-contain rounded-lg border border-gray-200">
+                        </div>
+                        
+                        <!-- File Input -->
+                        <label for="productImage" class="file-input-label cursor-pointer">
+                            <div class="flex flex-col items-center justify-center px-6 py-8 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50">
+                                <svg class="w-8 h-8 mb-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <span id="fileLabel" class="text-sm text-gray-600 mb-1">Haz clic para subir una imagen</span>
+                                <span class="text-xs text-gray-500">PNG, JPG (Máx. 5MB)</span>
+                            </div>
+                            <input type="file" id="productImage" name="productImage" accept="image/*" class="hidden" required>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Descuento -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <label class="block text-sm font-medium text-gray-700">¿Tiene descuento?</label>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="hasDiscount" class="discount-toggle sr-only">
+                            <div class="discount-slider w-12 h-6 bg-gray-200 rounded-full border border-gray-300 transition"></div>
+                        </label>
+                    </div>
+
+                    <div id="discountField" class="hidden">
+                        <label for="discountAmount" class="block text-sm font-medium text-gray-700 mb-1">Porcentaje de descuento</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <input type="number" id="discountAmount" name="discountAmount" min="0" max="100"
+                                   class="block w-full pl-12 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                   placeholder="10">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <span class="text-gray-500">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition">
+                        Guardar Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle discount field
+            const discountToggle = document.getElementById('hasDiscount');
+            const discountField = document.getElementById('discountField');
+
+            discountToggle.addEventListener('change', function() {
+                if(this.checked) {
+                    discountField.classList.remove('hidden');
+                } else {
+                    discountField.classList.add('hidden');
+                    document.getElementById('discountAmount').value = '';
+                }
+            });
+
+            // Image preview functionality
+            const productImage = document.getElementById('productImage');
+            const previewImage = document.getElementById('previewImage');
+            const imagePreview = document.getElementById('imagePreview');
+            const fileLabel = document.getElementById('fileLabel');
+
+            productImage.addEventListener('change', function(e) {
+                if(e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    fileLabel.textContent = file.name;
+                    
+                    // Show preview
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        previewImage.src = event.target.result;
+                        imagePreview.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Form submission
+            const productForm = document.getElementById('productForm');
+                
+                // Validate discount field if toggle is on
+                if(discountToggle.checked && !document.getElementById('discountAmount').value) {
+                    alert('Por favor ingresa el porcentaje de descuento');
+                    return;
+                }
+                
+                // Here you would typically send the form data to a server
+                const formData = new FormData(productForm);
+                
+                // Log the form data to console for demonstration
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
+                
+                // Success message
+                alert('Producto agregado correctamente!');
+                productForm.reset();
+                imagePreview.classList.add('hidden');
+                fileLabel.textContent = 'Haz clic para subir una imagen';
+                
+                // Reset discount toggle
+                discountToggle.checked = false;
+                discountField.classList.add('hidden');
+            });
+    </script>
+</body>
+</html>
