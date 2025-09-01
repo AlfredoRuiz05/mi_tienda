@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class UsuariosConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'tienda_lr.apps.usuarios'
+    name = 'apps.usuarios'
