@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-b)3!p92$t)b4oxjnx775^)w+ik@u6fp=o$124zn^px&t8@mcyr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,7 +48,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'tienda_lr.urls'
+#ROOT_URLCONF = 'tienda_lr.urls'
+ROOT_URLCONF = "tienda_lr.tienda_lr.urls"
 
 TEMPLATES = [
     {
@@ -68,8 +69,9 @@ TEMPLATES = [
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+WSGI_APPLICATION = "tienda_lr.tienda_lr.wsgi.application"
 
-WSGI_APPLICATION = 'tienda_lr.wsgi.application'
+#WSGI_APPLICATION = 'tienda_lr.wsgi.application'
 LOGIN_URL = '/login/'
 
 MEDIA_URL = '/media/'
@@ -133,7 +135,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+#STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
