@@ -47,9 +47,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-#ROOT_URLCONF = 'tienda_lr.urls'
-ROOT_URLCONF = "tienda_lr.tienda_lr.urls"
+ROOT_URLCONF = 'tienda_lr.urls'
+#ROOT_URLCONF = "tienda_lr.tienda_lr.urls"
 
 TEMPLATES = [
     {
@@ -69,7 +68,7 @@ TEMPLATES = [
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-WSGI_APPLICATION = "tienda_lr.tienda_lr.wsgi.application"
+WSGI_APPLICATION = "tienda_lr.wsgi.application"
 
 #WSGI_APPLICATION = 'tienda_lr.wsgi.application'
 LOGIN_URL = '/login/'
