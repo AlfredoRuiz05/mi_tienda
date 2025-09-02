@@ -69,6 +69,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 WSGI_APPLICATION = "core.wsgi.application"
 ROOT_URLCONF = 'core.urls'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 #ROOT_URLCONF = "tienda_lr.tienda_lr.urls"
 #WSGI_APPLICATION = 'tienda_lr.wsgi.application'
 LOGIN_URL = '/login/'
