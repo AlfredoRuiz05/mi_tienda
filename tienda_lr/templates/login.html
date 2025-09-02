@@ -10,7 +10,7 @@
 <body>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
-        <form method="post" action="{% url 'iniciar_sesion' %}">
+        <form method="post" action="{% url 'usuarios:iniciar_sesion' %}">
             {% csrf_token %}
             <input type="text" name="username" placeholder="Usuario" required>
             <input type="password" name="password" placeholder="Contraseña" required>
