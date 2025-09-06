@@ -94,8 +94,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'   # para producción (collectstatic)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Archivos multimedia
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = BASE_DIR / 'media'
 
 # Login
 LOGIN_URL = '/login/'
