@@ -5,14 +5,21 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from decimal import Decimal
 
 def home(request): 
-    productos = Producto.objects.all()
+    query = request.GET.get('q')  # lo que el usuario escribe en el buscador
+    
+    if query:
+        productos = Producto.objects.filter(nombre__icontains=query)  # búsqueda insensible a mayúsculas
+    else:
+        productos = Producto.objects.all()
 
     for p in productos:
         descuento_decimal = Decimal(p.descuento) / Decimal('100')
         p.precio_final = p.precio * (Decimal('1.0') - descuento_decimal)
 
-    return render(request, 'home.html', {'productos': productos})
-
+    return render(request, 'home.html', {
+        'productos': productos,
+        'query': query  # lo pasamos para mantener lo escrito en el input
+    })
 
 
 def es_admin(user):
